@@ -1,0 +1,80 @@
+/*!
+ * Start Bootstrap - Shop Homepage (https://startbootstrap.com/template-overviews/shop-homepage)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-shop-homepage/blob/master/LICENSE)
+ */
+
+
+  body {
+    padding-top: 54px;
+    background: url(../images/banner.jpg) no-repeat center;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    background-attachment: fixed;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+h1 {
+  font-size: 2.9em;
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: 600;
+  text-shadow: 4px 3px 1px rgba(0, 0, 0, 0.22);
+  letter-spacing: 2px;
+  text-align: center;
+  margin: 0.8em 1vw .9em;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+h2.wthree {
+  padding: 0.8em;
+  font-size: 1.2em;
+  color: #000;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 7px;
+  word-spacing: 10px;
+}
+
+table {
+  display: table;
+  border-collapse: separate;
+  border-spacing: 2px;
+  border-color: grey;
+  margin: 0px auto;
+}
+
+td {
+  width: 40px;
+  font-weight: 600;
+  font-size: 1em;
+  padding-top: 7px;
+  height: 24px;
+}
+
+.Displaytable td,
+.Displaytable th {
+    width: 100%;
+    padding: 7px 10px;
+    color: #000;
+    font-weight: 600;
+}
+
+table.Displaytable tr {
+    background: #fff;
+    color: #fff;
+}
+
+.seat {
+  border: 1px solid red;
+  background: yellow;
+}
+
+
+  @media (min-width: 992px) {
+    body {
+      padding-top: 56px;
+    }
+  }

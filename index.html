@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Movie Collections - find your favorate movies</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/modal.css"> 
+    <link rel="stylesheet", href="./css/homepage.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/alasql@0.4"></script>
+    
+
+    <!--sql db-->
+    <script>
+      alasql("CREATE TABLE films (movie_id INT PRIMARY KEY, profile STRING, title STRING, year INT, duration INT, language STRING)");
+      alasql("INSERT INTO films VALUES (1, 'https://yourfamilyexpert.com/wp-content/uploads/2017/07/mummy-700x400.jpg', 'The Mummy', 2017, 126,'English')");
+      alasql("INSERT INTO films VALUES (2, 'http://hyderabadlocal.com/wp-content/uploads/2018/07/Tom-Cruise-Mission-Impossible-center-top-700x400.jpg', 'Mission impossible - Fallout', 2018, 148,'English')");
+      alasql("INSERT INTO films VALUES (3, 'http://ste.india.com/sites/default/files/2017/01/25/565494-lalaland.jpg', 'La La Land',2016, 128,'English')");
+      alasql("INSERT INTO films VALUES (4, 'https://steemitimages.com/0x0/https://img.paratic.com/dosya/2017/02/son-10-yilin-unutulmaz-efsane-filmler-listesi-zindan-adasi-shutter-island.jpg', 'Shutter Island', 2010, 138, 'English')");
+      alasql("INSERT INTO films VALUES (5, 'https://directorsseries.files.wordpress.com/2017/07/cnincept.jpg', 'Inception', 2010, 148, 'English')");
+      alasql("INSERT INTO films VALUES (6, 'https://www.sukelalist.com/static/media/2018/09/34758032.jpg', 'Contratiempo', 2016, 106, 'Spanish')");
+      alasql("INSERT INTO films VALUES (7, 'https://directorsseries.files.wordpress.com/2016/07/mswolf.jpg', 'The Wolf of Wall Street', 2013, 180, 'English')");
+      alasql("INSERT INTO films VALUES (8, 'http://www.diszine.com/wp-content/uploads/2017/02/zootopia.jpg', 'Zootopia', 2016, 108, 'English')");
+      alasql("INSERT INTO films VALUES (9, 'https://www.part4.com/wp-content/uploads/2015/09/bh6_thumb_3_700x400_min.jpg', 'Big Hero 6', 2010, 102, 'English')");
+
+      alasql("CREATE TABLE actors (actor_name STRING PRIMARY KEY)");
+      alasql("INSERT INTO actors VALUES ('Tom Cruise'), ('Sofia Boutella'), ('Annabelle Wallis'), ('Henry Cavill'), ('Ving Rhames'), ('Emma Stone'), ('Ryan Gosling'), ('Leonardo DiCaprio'), ('Mark Ruffalo'), ('Ben Kingsley'), ('Joseph Gordon-Levitt'), ('Ellen Page'), ('Tom Hardy'), ('Mario Casas'), ('Ana Wagener'), ('Jose Coronado'), ('Jonah Hill'), ('Margot Robbie'), ('Ginnifer Goodwin'), ('Jason Bateman'), ('Idris Elba'), ('Ryan Potter'), ('Scott Adsit'), ('Jamie Chung')");      
+      
+      alasql("CREATE TABLE genre (genre_name STRING PRIMARY KEY)");
+      alasql("INSERT INTO genre VALUES ('Romance'), ('Action'), ('Adventure'), ('Animation'), ('Biography'), ('Comedy'), ('Crime'), ('Drama'), ('Mystery'), ('Thriller'), ('War'), ('Sci-Fi')");
+      
+      alasql("CREATE TABLE classifies (genre_name STRING REFERENCES genre(genre_name), movie_id INT REFERENCES films(movie_id))");
+      alasql("INSERT INTO classifies VALUES ('Action', 1)");
+      alasql("INSERT INTO classifies VALUES ('Action', 2)");
+      alasql("INSERT INTO classifies VALUES ('Romance', 3)");
+      alasql("INSERT INTO classifies VALUES ('Thriller', 4)");
+      alasql("INSERT INTO classifies VALUES ('Sci-Fi', 5)");
+      alasql("INSERT INTO classifies VALUES ('Crime', 6)");
+      alasql("INSERT INTO classifies VALUES ('Biography', 7)");
+      alasql("INSERT INTO classifies VALUES ('Animation', 8)");
+      alasql("INSERT INTO classifies VALUES ('Adventure', 9)");
+
+
+      alasql("CREATE TABLE casts (actor_name STRING REFERENCES actors(actor_name), movie_id INT REFERENCES films(movie_id))");
+      alasql("INSERT INTO casts VALUES ('Tom Cruise', 1)");
+      alasql("INSERT INTO casts VALUES ('Sofia Boutella', 1)");
+      alasql("INSERT INTO casts VALUES ('Annabelle Wallis', 1)");
+      alasql("INSERT INTO casts VALUES ('Tom Cruise', 2)");
+      alasql("INSERT INTO casts VALUES ('Henry Cavill', 2)");
+      alasql("INSERT INTO casts VALUES ('Ving Rhames', 2)");
+      alasql("INSERT INTO casts VALUES ('Emma Stone', 3)");
+      alasql("INSERT INTO casts VALUES ('Ryan Gosling', 3)");
+      alasql("INSERT INTO casts VALUES ('Leonardo DiCaprio', 4)");
+      alasql("INSERT INTO casts VALUES ('Mark Ruffalo', 4)");
+      alasql("INSERT INTO casts VALUES ('Ben Kingsley', 4)");
+      alasql("INSERT INTO casts VALUES ('Leonardo DiCaprio', 5)");
+      alasql("INSERT INTO casts VALUES ('Joseph Gordon-Levitt', 5)");
+      alasql("INSERT INTO casts VALUES ('Ellen Page', 5)");
+      alasql("INSERT INTO casts VALUES ('Tom Hardy', 5)");
+      alasql("INSERT INTO casts VALUES ('Mario Casas', 6)");
+      alasql("INSERT INTO casts VALUES ('Ana Wagener', 6)");
+      alasql("INSERT INTO casts VALUES ('Jose Coronado', 6)");
+      alasql("INSERT INTO casts VALUES ('Leonardo DiCaprio', 7)");
+      alasql("INSERT INTO casts VALUES ('Jonah Hill', 7)");
+      alasql("INSERT INTO casts VALUES ('Margot Robbie', 7)");
+      alasql("INSERT INTO casts VALUES ('Ginnifer Goodwin', 8)");
+      alasql("INSERT INTO casts VALUES ('Jason Bateman', 8)");
+      alasql("INSERT INTO casts VALUES ('Idris Elba', 8)");
+      alasql("INSERT INTO casts VALUES ('Ryan Potter', 9)");
+      alasql("INSERT INTO casts VALUES ('Scott Adsit', 9)");
+      alasql("INSERT INTO casts VALUES ('Jamie Chung', 9)");
+
+
+      alasql("CREATE TABLE rooms (room_no INT PRIMARY KEY)");
+      alasql("INSERT INTO rooms VALUES (1), (2), (3)");
+
+      alasql("CREATE TABLE shows (show_id INT PRIMARY KEY, room_no INT REFERENCES rooms(room_no), show_time STRING, movie_id INT REFERENCES films(movie_id))");
+      alasql("INSERT INTO shows VALUES (1, 1, '2018-11-29 3:45 PM', 1)");
+      alasql("INSERT INTO shows VALUES (2, 2, '2018-11-29 3:45 PM', 7)");
+      alasql("INSERT INTO shows VALUES (3, 3, '2018-11-29 3:45 PM', 2)");
+      alasql("INSERT INTO shows VALUES (4, 1, '2018-11-29 8:45 PM', 2)");
+      alasql("INSERT INTO shows VALUES (5, 2, '2018-11-29 8:45 PM', 5)");
+      alasql("INSERT INTO shows VALUES (6, 3, '2018-11-29 8:45 PM', 6)");
+      alasql("INSERT INTO shows VALUES (7, 1, '2018-11-30 3:45 PM', 4)");
+      alasql("INSERT INTO shows VALUES (8, 2, '2018-11-30 3:45 PM', 1)");
+      alasql("INSERT INTO shows VALUES (9, 3, '2018-11-30 3:45 PM', 2)");
+      alasql("INSERT INTO shows VALUES (10, 1, '2018-11-30 8:45 PM', 3)");
+      alasql("INSERT INTO shows VALUES (11, 2, '2018-11-30 8:45 PM', 9)");
+      alasql("INSERT INTO shows VALUES (12, 3, '2018-11-30 8:45 PM', 5)");
+      alasql("INSERT INTO shows VALUES (13, 1, '2018-12-01 3:45 PM', 7)");
+      alasql("INSERT INTO shows VALUES (14, 2, '2018-11-01 3:45 PM', 5)");
+      alasql("INSERT INTO shows VALUES (15, 3, '2018-12-01 3:45 PM', 6)");
+      alasql("INSERT INTO shows VALUES (16, 1, '2018-12-01 8:45 PM', 7)");
+      alasql("INSERT INTO shows VALUES (17, 2, '2018-12-01 8:45 PM', 8)");
+      alasql("INSERT INTO shows VALUES (18, 3, '2018-12-01 8:45 PM', 4)");
+      alasql("INSERT INTO shows VALUES (19, 1, '2018-12-02 3:45 PM', 3)");
+      alasql("INSERT INTO shows VALUES (20, 2, '2018-12-02 3:45 PM', 1)");
+      alasql("INSERT INTO shows VALUES (21, 3, '2018-12-02 3:45 PM', 2)");
+      alasql("INSERT INTO shows VALUES (22, 1, '2018-12-02 8:45 PM', 9)");
+      alasql("INSERT INTO shows VALUES (23, 2, '2018-12-02 8:45 PM', 6)");
+      alasql("INSERT INTO shows VALUES (24, 3, '2018-12-02 8:45 PM', 7)");
+      alasql("INSERT INTO shows VALUES (25, 1, '2018-12-03 3:45 PM', 8)");
+      alasql("INSERT INTO shows VALUES (26, 2, '2018-12-03 3:45 PM', 6)");
+      alasql("INSERT INTO shows VALUES (27, 3, '2018-12-03 3:45 PM', 3)");
+      alasql("INSERT INTO shows VALUES (28, 1, '2018-12-03 8:45 PM', 5)");
+      alasql("INSERT INTO shows VALUES (29, 2, '2018-12-03 8:45 PM', 1)");
+      alasql("INSERT INTO shows VALUES (30, 3, '2018-12-03 8:45 PM', 2)");
+
+
+      // alasql("CREATE TABLE seats (seat_id INT PRIMARY KEY, row_no STRING, seat_no STRING)");
+      // alasql("CREATE TABLE seats (seat_id INT PRIMARY KEY, row_no INT, seat_no STRING, room_no INT REFERENCES rooms(room_no), primary key(room_no, row_no, seat_no))");
+      alasql("CREATE TABLE seats (seat_id INT PRIMARY KEY, row_no STRING, seat_no STRING, room_no INT REFERENCES rooms(room_no))");
+
+      for (var room_no = 0; room_no < 3; room_no++) {
+        for (var row_no = 0; row_no < 10; row_no++) {
+          for (var col_no = 0; col_no < 6; col_no++) {
+            var id = room_no * 60 + row_no * 6 + col_no;
+            var row_name = String.fromCharCode(65+row_no);
+            var col_name = 1 + col_no;
+            var room_name = 1 + room_no
+            alasql("INSERT INTO seats VALUES ("+id+", '"+row_name+"', '"+col_name+"', '"+room_name+"')");
+          }
+        }  
+      }
+      
+      alasql("CREATE TABLE booking (ref_no STRING PRIMARY KEY, book_time STRING, customer_name STRING)");
+      alasql("INSERT INTO booking VALUES ('D1JF23D', '2018-12-10', 'Tao Chen'), ('A7SAD3X', '2018-12-09', 'Yang Song')");
+      
+      alasql("CREATE TABLE reserves (ref_no STRING REFERENCES booking(ref_no), show_id INT REFERENCES shows(show_id), seat_id INT REFERENCES seats(seat_id))");
+      alasql("INSERT INTO reserves VALUES ('D1JF23D', 1, 3)");
+      alasql("INSERT INTO reserves VALUES ('D1JF23D', 1, 4)");
+      alasql("INSERT INTO reserves VALUES ('D1JF23D', 8, 10)");
+      alasql("INSERT INTO reserves VALUES ('D1JF23D', 3, 20)");
+      alasql("INSERT INTO reserves VALUES ('D1JF23D', 2, 12)");
+      alasql("INSERT INTO reserves VALUES ('D1JF23D', 2, 11)");
+      alasql("INSERT INTO reserves VALUES ('D1JF23D', 2, 13)");
+      alasql("INSERT INTO reserves VALUES ('A7SAD3X', 20, 20)");
+
+
+
+      </script>
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Movie Collections - find your favorate movie</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-lg-3">
+
+          <h1 class="my-4">Genre</h1>
+          <ul id="filterOptions" class="list-group">
+            <li class="active list-group-item"><a href="#" class="all">All</a></li>
+          </ul>
+        </div>
+        <!-- /.col-lg-3 -->
+
+        <div class="col-lg-9">
+          <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+              <div class="carousel-item active">
+                <img class="d-block img-fluid" src="http://pfe.foxleigh.me/wp-content/uploads/sites/3/2017/01/z-for-zacharia.jpg" alt="First slide">
+              </div>
+              <div class="carousel-item">
+                <img class="d-block img-fluid" src="http://i.huffpost.com/gen/3886458/images/r-OSCAR-NOMINATIONS-huge.jpg" alt="Second slide">
+              </div>
+              <div class="carousel-item">
+                <img class="d-block img-fluid" src="https://chattr.com.au/wp-content/uploads/2016/04/Captain_America-Civil-War-prescreening_.jpg" alt="Third slide">
+              </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+
+          <div id = "movies_list" class="row">
+          </div>
+          <!-- /.row -->
+
+        </div>
+        <!-- /.col-lg-9 -->
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Book a ticket</h4>
+        </div>
+        <div class="modal-body">
+          <div class="inputForm">
+              <div class="mr_agilemain">
+                  <div class="form-group">
+                      <label> Name</label>
+                      <input type="text" id="Username" required>
+                      <label>&nbsp &nbsp Time slot</label>
+                      <select id = "dropDown"></select>
+                  </div>
+              </div>
+          </div>
+
+          <div class="seatStructure txt-center" style="overflow-x:auto;">
+
+            <table id="seats" align="middle">
+            </table>
+          
+            <div class="screen" align="middle">
+                <h2 class="wthree">Screen this way</h2>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div>
+            <table class="fixed" width="100%">
+                <tr>
+                    <th>Name</th>
+                    <th>Seats</th>
+                    <th>Ref</th>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="nameDisplay" align="left"></div>
+                    </td>
+                    <td>
+                        <div id="seatsDisplay" align="left"></div>
+                    </td>
+                    <td>
+                        <div id="refDisplay" align="left"></div>
+                    </td>
+
+                </tr>
+            </table>
+          </div>
+          <button id="book" type="button" class="btn btn-default">Book</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+    <script src="./js/jquery-2.2.3.min.js"></script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+
+        //display movies
+        var movies = alasql("SELECT * FROM films JOIN classifies ON films.movie_id = classifies.movie_id");
+
+        $.each(movies, function(index, value) {
+          var actors = alasql('select actor_name from casts where movie_id = '+ value.movie_id);
+          var cast_list = '';
+          for (var i = 0; i < actors.length - 1; i++) {
+            cast_list += actors[i].actor_name
+            cast_list += ", ";
+          }
+          if (actors.length >= 1){
+            cast_list += actors[actors.length - 1].actor_name;
+          }
+          
+          $('#movies_list').append('<div class="' + value.genre_name +
+            ' col-lg-4 col-md-6 mb-4"><div class="card h-100">'+
+            '<a href="#"><img class="card-img-top" src="'+ value.profile + '" alt=""></a>' +
+            '<div class="card-body"><h4 class="card-title"><a href="#">' +
+            value.title+'<a></h4>' + 
+            '<h6>'+ value.duration +" mins" + "; " + value.language +'</h6>' + 
+            '<p class="card-text">' + "Casts: " +
+            cast_list
+            +'</p></div>' +
+            '<div class="card-footer"><small class="text-muted">&#9733; &#9733; &#9733; &#9733;&#9734;</small>'+
+            '<button class ="float-right" data-toggle="modal" data-target="#exampleModal" id="' + value.movie_id +'">Book</button></div>' +
+            '</div></div>')
+        });
+        
+        var genres = alasql("SELECT * FROM genre");
+        $.each(genres, function(index, value) {
+          $('#filterOptions').append('<li class="list-group-item"><a href="#" class="' + value.genre_name + '">' + value.genre_name + '</a></li>')
+        });
+
+        $('#filterOptions li a').click(function() {
+            // fetch the class of the clicked item
+            var ourClass = $(this).attr('class');
+            // reset the active class on all the buttons
+            $('#filterOptions li').removeClass('active');
+            // update the active state on our clicked button
+            $(this).parent().addClass('active');
+            if(ourClass == 'all') {
+              // show all our items
+              $('#movies_list').children('div').show();
+            }
+            else {
+              // hide all elements that don't share ourClass
+              $('#movies_list').children('div:not(.' + ourClass + ')').hide();
+                // show all elements that do share ourClass
+              $('#movies_list').children('div.' + ourClass).show();
+            }
+          return false;
+        });
+      });
+      
+      var id;
+      $('#movies_list').on('click', 'button', function(){
+        id = this.id;
+        console.log("mov id", id)
+        $("#myModal").modal();
+
+        //clean up
+        $("#dropDown").empty()
+
+        //display schedules
+        var time_slot = alasql("SELECT * FROM shows JOIN films ON films.movie_id = shows.movie_id WHERE films.movie_id = "+id);
+        var default_time = "";
+        $.each(time_slot, function(index, value) {
+          if (index == 0) {
+            default_time = value;
+          }
+          $("#dropDown").append($("<option />").val(value.show_time).text(value.show_time));
+        });
+        
+        var booked_str = [];
+        var show_id;
+        var room_no;
+        //display seats
+        var refresh = function () {
+          $('#Username').val('');
+          $('#nameDisplay').empty();
+          $('#seatsDisplay').empty();
+          $('#refDisplay').empty();
+          $("#book").prop("disabled",false);
+
+          var show_time = $('#dropDown option:selected').text();  
+          show_id = alasql("SELECT show_id FROM shows WHERE shows.movie_id = "+id +" and shows.show_time = '"+show_time+"'")[0].show_id;
+          room_no = alasql("SELECT room_no FROM shows WHERE shows.movie_id = "+id +" and shows.show_time = '"+show_time+"'")[0].room_no;
+
+          $("#seats").empty()
+          $("#seats").append('<tr><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>');
+
+          var booked_seats = alasql("SELECT row_no, seat_no FROM reserves JOIN seats ON seats.seat_id = reserves.seat_id JOIN shows ON shows.show_id = reserves.show_id WHERE reserves.show_id = "+show_id);          
+          var seats = {};
+
+          for (key in booked_seats) {
+            var item = booked_seats[key];
+
+            var row_no = item.row_no;
+            var col_no = item.seat_no;
+            booked_str.push(row_no + col_no);
+            
+            if (row_no in seats == false) {
+              seats[row_no] = {}
+            }
+
+            seats[row_no][col_no] = true;
+          }
+          //console.log(booked_seats);
+
+
+        // var seats = {2: {4 : true}};
+        for (var i=0; i<10; i++) {
+          str = '<tr><td>'+String.fromCharCode(65+i)+'</td>';
+          var row = String.fromCharCode(65+i);
+
+          for (var j=0; j<6; j++) {
+            var isused = false;
+            if (row in seats == true) {
+              var col = j + 1;
+              if (col in seats[row] == true) {
+                isused = true;
+              }
+            }
+            var checked = isused ? 'checked' : '';
+            var disabled = isused ? 'disabled' : '';
+            var seatval = String.fromCharCode(65+i) + (j+1);
+            str += '<td><input type="checkbox"  class ="seat" value="' + seatval +'" ' + checked +  ' ' + disabled + ' /></td>';
+          }
+
+          str += '</tr>';
+          $("#seats").append(str);
+        }
+          var time_slot = alasql("SELECT * FROM shows JOIN films ON films.movie_id = shows.movie_id WHERE films.movie_id = "+id);
+        } //end refresh seats
+        
+        $( "#book" ).click(function() {
+
+          var username = $("#Username").val();
+          var allSeatsVals = [];
+          
+
+          //Storing in Array
+          var room_info = "Room" + room_no + ": ";
+
+          $('#seats :checked').each(function () {
+            var seat_no = $(this).val();
+            if(booked_str.indexOf(seat_no) == -1){
+                allSeatsVals.push($(this).val());
+            }   
+          });
+
+          if(username.length == 0 || allSeatsVals.length == 0){
+            alert("Invalid input!");
+          }else{
+            $(".seatStructure *").prop("disabled", true);
+
+          //Displaying 
+          var ref = Math.random().toString(36).substr(2, 7).toUpperCase();
+
+          $('#nameDisplay').html(username);
+          $('#seatsDisplay').html(room_info + allSeatsVals);
+          $('#refDisplay').html(ref);
+
+          //insert to db
+          var date = new Date().toJSON().slice(0,10);
+          alasql("INSERT INTO booking VALUES ('"+ ref + "', '" + date +  "', '" + username +"')");
+
+          $.each(allSeatsVals, function(index, value) {
+            var room_no = alasql("SELECT * FROM shows WHERE shows.show_id = "+show_id)[0].room_no;
+            var seat_id = (room_no - 1)* 60 + (value.charCodeAt(0) - 65) * 6 + parseInt(value[1]) - 1; 
+
+            alasql("INSERT INTO reserves VALUES ('" + ref +"', " + show_id + ", " + seat_id + ")");
+          });
+          
+          
+          //refresh();
+          $("#book").prop("disabled",true);
+        }
+        });
+
+        $("#dropDown").change(function(value) {
+          refresh();
+        })
+          refresh();
+      });
+    </script>
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </body>
+
+</html>
